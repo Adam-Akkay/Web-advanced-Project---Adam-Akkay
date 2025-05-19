@@ -10,6 +10,29 @@
   <header>
     <h1>League of Legends Champions</h1>
     <input type="text" id="search" placeholder="Zoek naar een champion...">
+    <div>
+  <label for="sortOrder">Sorteer op naam:</label>
+  <select id="sortOrder">
+    <option value="az">A tot Z</option>
+    <option value="za">Z tot A</option>
+  </select>
+
+  <label for="roleFilter">Filter op rol:</label>
+  <select id="roleFilter">
+    <option value="">Alle rollen</option>
+    <option value="Fighter">Fighter</option>
+    <option value="Mage">Mage</option>
+    <option value="Assassin">Assassin</option>
+    <option value="Tank">Tank</option>
+    <option value="Marksman">Marksman</option>
+    <option value="Support">Support</option>
+  </select>
+
+  <label for="healthFilter">Min. HP:</label>
+  <input type="number" id="healthFilter" placeholder="Min. HP" />
+  <button onclick="applyFilters()">Filter</button>
+</div>
+
   </header>
   <main>
     <div id="champion-list"></div>
