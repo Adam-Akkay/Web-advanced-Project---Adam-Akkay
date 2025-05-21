@@ -2,6 +2,7 @@ const apiUrl = 'https://ddragon.leagueoflegends.com/cdn/14.3.1/data/en_US/champi
 
 let championsData = [];
 let filteredChampions = [];
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
 async function fetchChampions() {
   const response = await fetch(apiUrl);
@@ -26,9 +27,15 @@ function displayChampions(champions) {
     championDiv.addEventListener('click', () => {
       displayChampionInfo(champion);
     });
+
+     if (favorites.some(fav => fav.id === champion.id)) { 
+      championDiv.style.backgroundColor = '#ffd700'; // Geeft favorieten in het geel weer
+     }
+
     championListDiv.appendChild(championDiv);
   });
 }
+
 
 
 function displayChampionInfo(champion) {
@@ -71,8 +78,29 @@ function displayChampionInfo(champion) {
   imageColumn.innerHTML = `<h3>Afbeelding</h3><img src="http://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.id}.png" alt="${champion.name}">`;
   championRow.appendChild(imageColumn);
 
+  // Favorieten knop
+  const favoriteButton = document.createElement('button');
+  favoriteButton.textContent = 'Voeg toe aan favorieten';
+  favoriteButton.addEventListener('click', () => toggleFavorite(champion));
+  championInfoDiv.appendChild(favoriteButton);
+
+
   championInfoDiv.appendChild(championRow);
 }
+
+// Favorieten functie
+function toggleFavorite(champion) {
+  const isFavorite = favorites.some(fav => fav.id === champion.id);
+  if (isFavorite) {
+    favorites = favorites.filter(fav => fav.id !== champion.id);
+  } else {
+    favorites.push(champion);
+  }
+
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  displayChampions(filteredChampions); 
+}
+
 
 // filter functie
 function applyFilters() {
@@ -107,7 +135,7 @@ function sortChampions(champions, order) {
   });
 }
 
-function filterChampions(event) {
+function filterChampions(event) {  // Filtert bij de zoekbalk
   const searchTerm = event.target.value.toLowerCase();
   const filtered = championsData.filter(champion => champion.name.toLowerCase().includes(searchTerm));
   
