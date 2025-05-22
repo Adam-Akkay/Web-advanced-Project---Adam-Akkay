@@ -40,7 +40,7 @@ function displayChampions(champions) {
 
 function displayChampionInfo(champion) {
   const championInfoDiv = document.getElementById('champion-info');
-  championInfoDiv.innerHTML = `<h3>${champion.name}</h3><p>${champion.title}</p>`;
+  championInfoDiv.innerHTML = '';
 
   // opmaak 6 kolommen
   const championRow = document.createElement('div');
@@ -78,14 +78,13 @@ function displayChampionInfo(champion) {
   imageColumn.innerHTML = `<h3>Afbeelding</h3><img src="http://ddragon.leagueoflegends.com/cdn/14.3.1/img/champion/${champion.id}.png" alt="${champion.name}">`;
   championRow.appendChild(imageColumn);
 
+  championInfoDiv.appendChild(championRow);
+
   // Favorieten knop
   const favoriteButton = document.createElement('button');
   favoriteButton.textContent = 'Voeg toe aan favorieten';
   favoriteButton.addEventListener('click', () => toggleFavorite(champion));
   championInfoDiv.appendChild(favoriteButton);
-
-
-  championInfoDiv.appendChild(championRow);
 }
 
 // Favorieten functie
